@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Dia dos Namorados! ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap');
+
+        :root {
+            --pink-light: #FFD1DC;
+            --pink-medium: #FFB6C1;
+            --pink-dark: #FF69B4;
+            --heart-color-1: #FFC0CB;
+            --heart-color-2: #FF69B4;
+            --heart-color-3: #FF1493;
+            --button-color: #e91e63;
+            --button-hover-color: #c2185b;
+            --text-color: #333;
+            --text-shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden; /* Evita barras de rolagem devido à animação de corações */
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--pink-light), var(--pink-medium), var(--pink-dark));
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: var(--text-color);
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animação de Coração */
+        .heart-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none; /* Permite que cliques passem por baixo */
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            background-color: var(--heart-color-1);
+            transform: rotate(-45deg);
+            animation: floatUp 10s ease-in infinite, pulse 1.5s infinite alternate;
+            opacity: 0; /* Começa escondido */
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));
+            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 50%;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(-45deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-50px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: rotate(-45deg) scale(1); }
+            100% { transform: rotate(-45deg) scale(1.05); }
+        }
+
+        /* Slideshow de Fotos de Fundo - AJUSTES CRUCIAIS AQUI */
+        #background-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5; /* Entre os corações (0) e o conteúdo (10) */
+            /* Removido background-color aqui, pois queremos apenas as fotos */
+            opacity: 0; /* Começa escondido, só aparece após o clique */
+            transition: opacity 1s ease-in-out; /* Transição suave para o slideshow aparecer */
+            overflow: hidden; /* Garante que as imagens não "vazem" ao animar */
+        }
+
+        .slideshow-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+            opacity: 0; /* Cada imagem começa escondida */
+            /* Aumentado o tempo de transição de opacidade para um fade mais suave */
+            transition: opacity 2s ease-in-out, transform 8s linear;
+            transform: scale(1.0);
+            will-change: opacity, transform; /* Otimiza para performance da animação */
+        }
+
+        /* Classe que controla a visibilidade e o zoom da imagem ativa */
+        .slideshow-image.active {
+            opacity: 1; /* Imagem ativa está visível */
+            transform: scale(1.1); /* Efeito de zoom sutil */
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10; /* Garante que o conteúdo esteja acima de tudo */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3em;
+            color: var(--button-color);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInSlideDown 1s ease-out forwards;
+            animation-delay: 0.5s;
+            text-shadow: 2px 2px 4px var(--text-shadow-color);
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInSlideDown 1s ease-out forwards;
+            animation-delay: 1s;
+            color: #555;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes fadeInSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .action-button {
+            background-color: var(--button-color);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInSlideDown 1s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .action-button:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-button:hover::before {
+            left: 100%;
+        }
+
+        #final-message-container {
+            margin-top: 30px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 1s ease-out forwards;
+            text-align: center;
+        }
+
+        #final-message {
+            font-family: 'Pacifico', cursive;
+            font-size: 2em;
+            color: var(--button-color);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px var(--text-shadow-color);
+        }
+
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #spotify-player {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            height: 152px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            p {
+                font-size: 1em;
+                padding: 0 10px;
+            }
+
+            .action-button {
+                padding: 12px 25px;
+                font-size: 1.1em;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            #final-message {
+                font-size: 1.8em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 0.9em;
+            }
+
+            .action-button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+
+            .content-wrapper {
+                padding: 15px;
+            }
+
+            #final-message {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container"></div>
+    <div id="background-slideshow"></div> <div class="content-wrapper">
+        <h1 id="main-title">Feliz dia dos namorados meu amor!❤️</h1>
+        <p id="main-paragraph">
+            Hoje é o nosso dia, mas a verdade é que todo dia ao seu lado é especial. Você me inspira, me acalma e me completa de um jeito que só o amor verdadeiro consegue fazer. Obrigado por ser minha parceira, minha melhor amiga, meu porto seguro. Que a gente continue rindo juntos, sonhando juntos, crescendo lado a lado. Te amo infinitamente, minha vida! 💖
+        </p>
+        <button class="action-button" id="action-button">Clique aqui</button>
+
+        <div id="final-message-container">
+            <p id="final-message">Com todo amor, Gabriel 💌</p>
+            <iframe id="spotify-player" style="border-radius:12px" src="https://open.spotify.com/embed/track/2C3X3P1WkX0CjG3s3B4e3E?utm_source=generator&auto_play=true" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('action-button');
+            const finalMessageContainer = document.getElementById('final-message-container');
+            const backgroundSlideshow = document.getElementById('background-slideshow');
+
+            // --- LOCAL PARA INSERIR SUAS 6 IMAGENS ---
+            // Você pode usar duas formas para o caminho das fotos:
+
+            // OPÇÃO 1: FOTOS NA MESMA PASTA DO ARQUIVO HTML
+            // Se você salvar suas fotos (ex: "foto1.jpg", "foto2.png")
+            // na mesma pasta onde está este arquivo HTML (diadosnamorados.html),
+            // use apenas o nome do arquivo aqui:
+            const photos = [
+                'WhatsApp Image 2025-06-11 at 14.57.17 (1).jpeg',    // <--- COLOQUE O NOME DO ARQUIVO DA SUA PRIMEIRA FOTO AQUI
+                'WhatsApp Image 2025-06-11 at 14.57.17 (2).jpeg',    // <--- COLOQUE O NOME DO ARQUIVO DA SUA SEGUNDA FOTO AQUI
+                'WhatsApp Image 2025-06-11 at 14.57.17.jpeg',   // <--- COLOQUE O NOME DO ARQUIVO DA SUA TERCEIRA FOTO AQUI
+                'WhatsApp Image 2025-06-11 at 14.57.18 (1).jpeg',   // <--- COLOQUE O NOME DO ARQUIVO DA SUA QUARTA FOTO AQUI
+                'WhatsApp Image 2025-06-11 at 14.57.18 (2).jpeg',    // <--- COLOQUE O NOME DO ARQUIVO DA SUA QUINTA FOTO AQUI
+                'WhatsApp Image 2025-06-11 at 14.57.18.jpeg'     // <--- COLOQUE O NOME DO ARQUIVO DA SUA SEXTA FOTO AQUI
+            ];
+
+            // OPÇÃO 2: FOTOS HOSPEDADAS ONLINE (ex: Imgur, Google Fotos com link público)
+            // Se suas fotos estiverem hospedadas em um serviço online,
+            // você precisa usar a URL COMPLETA de cada foto:
+            /*
+            const photos = [
+                'https://i.imgur.com/exemplo_da_minha_foto_1.jpg',
+                'https://seusite.com.br/caminho/para/sua_foto_2.png',
+                'https://docs.google.com/uc?id=EXEMPLO_ID_DA_SUA_FOTO_NO_GOOGLE_DRIVE_PUBLICO_3',
+                'https://exemplo.com/sua_foto_4.jpeg',
+                'https://outrosite.org/imagens/foto_5.webp',
+                'https://storage.cloud.google.com/sua_foto_6.jpg'
+            ];
+            */
+            // Escolha **APENAS UMA** das opções acima (OPÇÃO 1 ou OPÇÃO 2) e comente a outra.
+            // Para comentar uma linha ou um bloco, use `//` no início da linha ou `/* ... */` para um bloco.
+
+
+            let currentPhotoIndex = 0;
+            let slideshowInterval;
+            let activeImage = null; // Rastreia a imagem atualmente ativa
+            let nextImageElement = null; // Rastreia a próxima imagem que está carregando/aparecendo
+
+            // Função para criar um coração
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                document.querySelector('.heart-container').appendChild(heart);
+
+                const size = Math.random() * 20 + 10;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDuration = `${Math.random() * 5 + 7}s`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+
+                const colors = ['var(--heart-color-1)', 'var(--heart-color-2)', 'var(--heart-color-3)'];
+                heart.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                heart.addEventListener('animationend', () => {
+                    heart.remove();
+                });
+            }
+
+            // Gera corações periodicamente
+            setInterval(createHeart, 300);
+
+            // Função para iniciar o slideshow de fotos de fundo
+            function startSlideshow() {
+                // Garante que o contêiner do slideshow esteja visível
+                backgroundSlideshow.style.opacity = '1';
+
+                function showNextPhoto() {
+                    // Calcula o índice da próxima foto
+                    const nextPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+
+                    // Cria e carrega a PRÓXIMA imagem em segundo plano para garantir que esteja pronta
+                    const newImage = new Image(); // Usa new Image() para pré-carregar
+                    newImage.src = photos[nextPhotoIndex];
+
+                    newImage.onload = () => { // Somente depois que a imagem carregar
+                        if (nextImageElement) { // Se já existe uma imagem "próxima" da iteração anterior
+                            nextImageElement.classList.remove('active'); // Remove a classe 'active' para iniciar o fade-out
+                            nextImageElement.addEventListener('transitionend', () => {
+                                if (nextImageElement && nextImageElement.parentNode) {
+                                    nextImageElement.parentNode.removeChild(nextImageElement);
+                                }
+                            }, { once: true });
+                        }
+
+                        // Adiciona a nova imagem ao DOM
+                        newImage.classList.add('slideshow-image');
+                        backgroundSlideshow.appendChild(newImage);
+
+                        // Força um reflow para garantir que a transição CSS seja aplicada
+                        void newImage.offsetWidth;
+                        newImage.classList.add('active'); // Torna a nova imagem ativa
+
+                        // Atualiza as referências para o próximo ciclo
+                        activeImage = newImage;
+                        currentPhotoIndex = nextPhotoIndex;
+                    };
+
+                    // Se a imagem falhar ao carregar, pular para a próxima (opcional)
+                    newImage.onerror = () => {
+                        console.error('Falha ao carregar imagem: ' + photos[nextPhotoIndex]);
+                        // Tentar carregar a próxima imagem imediatamente se houver um erro
+                        currentPhotoIndex = nextPhotoIndex; // Avança o índice
+                        showNextPhoto(); // Chama a função novamente para tentar a próxima
+                    };
+                }
+
+                // Inicia o slideshow exibindo a primeira foto
+                const initialImage = new Image();
+                initialImage.src = photos[currentPhotoIndex];
+                initialImage.classList.add('slideshow-image', 'active');
+                backgroundSlideshow.appendChild(initialImage);
+                activeImage = initialImage; // Define a primeira imagem como a ativa
+
+                // Inicia o intervalo para trocar as fotos após a primeira ser exibida
+                slideshowInterval = setInterval(showNextPhoto, 5000); // Troca de foto a cada 5 segundos
+            }
+
+            button.addEventListener('click', () => {
+                // Esconde e remove o botão suavemente
+                button.style.opacity = '0';
+                button.style.transform = 'translateY(20px)';
+                button.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                setTimeout(() => {
+                    button.style.display = 'none';
+                }, 500); // Espera o fade out do botão
+
+                // Mostra e anima a mensagem final e o player do Spotify
+                finalMessageContainer.style.display = 'block';
+                // Força o navegador a recalcular o layout para garantir a animação
+                void finalMessageContainer.offsetWidth;
+                finalMessageContainer.style.opacity = '1';
+                finalMessageContainer.style.transform = 'translateY(0)';
+
+                // Inicia o slideshow de fotos de fundo
+                startSlideshow();
+
+                // AVISO SOBRE AUTOPLAY DO SPOTIFY:
+                // Navegadores modernos frequentemente bloqueiam o autoplay de mídias
+                // sem uma interação direta do usuário com o elemento de mídia.
+                // Embora o iframe tenha 'allow="autoplay"', não é uma garantia.
+                // Se não tocar automaticamente, a pessoa precisará dar play.
+            });
+        });
+    </script>
+</body>
+</html>
