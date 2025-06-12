@@ -11,24 +11,22 @@
             --pink-light: #FFD1DC;
             --pink-medium: #FFB6C1;
             --pink-dark: #FF69B4;
-            --heart-color-1: #FFC0CB;
-            --heart-color-2: #FF69B4;
-            --heart-color-3: #FF1493;
+            /* As variáveis de cor de coração foram removidas, conforme sua preferência */
             --button-color: #e91e63;
             --button-hover-color: #c2185b;
             --text-color: #333;
             --text-shadow-color: rgba(0, 0, 0, 0.1);
+            --error-color: #e74c3c; /* Cor vermelha para mensagens de erro */
         }
 
         body {
             margin: 0;
-            overflow: hidden; /* Evita barras de rolagem devido à animação de corações */
             font-family: 'Quicksand', sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* Altera de center para flex-start para não centralizar o conteúdo acima da viewport */
             align-items: center;
-            min-height: 100vh;
+            min-height: 100vh; /* Mantido para garantir que o gradiente preencha a tela inicialmente */
             background: linear-gradient(135deg, var(--pink-light), var(--pink-medium), var(--pink-dark));
             background-size: 400% 400%;
             animation: gradientAnimation 15s ease infinite;
@@ -36,6 +34,10 @@
             position: relative;
             z-index: 1;
             box-sizing: border-box;
+            overflow-x: hidden; /* Evita barra de rolagem horizontal */
+            overflow-y: auto; /* CORREÇÃO: Permite rolagem vertical */
+            padding-top: 20px; /* Adiciona um pequeno padding no topo para o conteúdo não colar */
+            padding-bottom: 20px; /* Adiciona um pequeno padding no final para o conteúdo não colar */
         }
 
         @keyframes gradientAnimation {
@@ -44,80 +46,18 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Animação de Coração */
-        .heart-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none; /* Permite que cliques passem por baixo */
-            z-index: 0;
-        }
+        /* O código para a animação de Coração foi removido, conforme sua preferência */
 
-        .heart {
-            position: absolute;
-            background-color: var(--heart-color-1);
-            transform: rotate(-45deg);
-            animation: floatUp 10s ease-in infinite, pulse 1.5s infinite alternate;
-            opacity: 0; /* Começa escondido */
-            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));
-            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.5);
-        }
-
-        .heart::before,
-        .heart::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: inherit;
-            border-radius: 50%;
-        }
-
-        .heart::before {
-            top: -50%;
-            left: 0;
-        }
-
-        .heart::after {
-            top: 0;
-            left: 50%;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) rotate(-45deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.8;
-            }
-            80% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-50px) rotate(-45deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes pulse {
-            0% { transform: rotate(-45deg) scale(1); }
-            100% { transform: rotate(-45deg) scale(1.05); }
-        }
-
-        /* Slideshow de Fotos de Fundo - AJUSTES CRUCIAIS AQUI */
+        /* Slideshow de Fotos de Fundo */
         #background-slideshow {
-            position: absolute;
+            position: fixed; /* Mudar para fixed para que o slideshow fique parado no fundo enquanto a página rola */
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 5; /* Entre os corações (0) e o conteúdo (10) */
-            /* Removido background-color aqui, pois queremos apenas as fotos */
+            z-index: 5;
             opacity: 0; /* Começa escondido, só aparece após o clique */
-            transition: opacity 1s ease-in-out; /* Transição suave para o slideshow aparecer */
+            transition: opacity 1s ease-in-out;
             overflow: hidden; /* Garante que as imagens não "vazem" ao animar */
         }
 
@@ -127,18 +67,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
-            opacity: 0; /* Cada imagem começa escondida */
-            /* Aumentado o tempo de transição de opacidade para um fade mais suave */
+            object-fit: cover;
+            opacity: 0;
             transition: opacity 2s ease-in-out, transform 8s linear;
             transform: scale(1.0);
-            will-change: opacity, transform; /* Otimiza para performance da animação */
+            will-change: opacity, transform;
         }
 
-        /* Classe que controla a visibilidade e o zoom da imagem ativa */
         .slideshow-image.active {
-            opacity: 1; /* Imagem ativa está visível */
-            transform: scale(1.1); /* Efeito de zoom sutil */
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         .content-wrapper {
@@ -151,9 +89,10 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             max-width: 90%;
             box-sizing: border-box;
+            margin-bottom: 30px; /* Adiciona margem abaixo do content-wrapper */
         }
 
-        h1 {
+        h1 { /* Título principal: Feliz dia dos namorados meu amor!❤️ */
             font-family: 'Pacifico', cursive;
             font-size: 3em;
             color: var(--button-color);
@@ -165,7 +104,7 @@
             text-shadow: 2px 2px 4px var(--text-shadow-color);
         }
 
-        p {
+        p { /* Estilo geral para p, usado no parágrafo inicial */
             font-size: 1.2em;
             line-height: 1.6;
             margin-bottom: 30px;
@@ -178,6 +117,21 @@
             margin-left: auto;
             margin-right: auto;
         }
+        /* Estilo para o parágrafo longo que aparece NA SEGUNDA FASE (após o clique inicial) */
+        p#second-screen-paragraph {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px; /* Margem entre o parágrafo e o vídeo */
+            color: #555;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0; /* Começa oculto */
+            transform: translateY(-20px); /* Para animação de entrada */
+            animation: fadeInSlideDown 1s ease-out forwards;
+            animation-delay: 0.5s; /* Aparece mais rápido que o vídeo/botão */
+        }
+
 
         @keyframes fadeInSlideDown {
             from { opacity: 0; transform: translateY(-20px); }
@@ -226,36 +180,116 @@
             left: 100%;
         }
 
-        #final-message-container {
+        #after-first-click-content {
             margin-top: 30px;
-            display: none;
+            padding-bottom: 50px; /* Preenchimento inferior para permitir rolagem confortável */
+            display: none; /* Inicia oculto */
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInSlideUp 1s ease-out forwards;
             text-align: center;
         }
 
-        #final-message {
-            font-family: 'Pacifico', cursive;
-            font-size: 2em;
-            color: var(--button-color);
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px var(--text-shadow-color);
-        }
+        /* O estilo #final-message não é mais necessário, pois o parágrafo longo agora tem seu próprio ID */
 
         @keyframes fadeInSlideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        #spotify-player {
+        /* Estilo para o vídeo de vocês */
+        #our-video-player {
             width: 100%;
-            max-width: 500px;
+            max-width: 500px; /* Limite a largura para não ser muito grande em telas amplas */
             border-radius: 12px;
-            height: 152px;
+            height: auto; /* Mantém a proporção do vídeo */
+            aspect-ratio: 16 / 9; /* Define uma proporção comum (largura/altura) */
             display: block;
-            margin: 0 auto;
+            margin: 0 auto; /* Ajuste para não ter margem extra entre parágrafo e vídeo */
+            background-color: #000; /* Fundo preto para o player antes do vídeo carregar */
+            object-fit: cover; /* Garante que o vídeo preencha o espaço sem barras pretas */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
+            opacity: 0; /* Inicia oculto para animação de entrada */
+            transform: translateY(20px);
+            animation: fadeInSlideUp 1s ease-out forwards;
+            animation-delay: 1s; /* Aparece depois do parágrafo */
         }
+        
+        /* O player de áudio será invisível */
+        #background-audio-player {
+            display: none; /* Mantém o player de áudio invisível */
+        }
+
+        /* Nova seção: Campo de data e botão de confirmação */
+        .date-section {
+            margin-top: 40px; /* Espaço entre o vídeo e esta seção */
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.5); /* Linha divisória sutil */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0; /* Inicia oculto para animação de entrada */
+            transform: translateY(20px);
+            animation: fadeInSlideUp 1s ease-out forwards;
+            animation-delay: 1.5s; /* Aparece depois do vídeo */
+        }
+
+        .date-section h3 {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8em;
+            color: var(--button-color);
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px var(--text-shadow-color);
+        }
+
+        .date-input {
+            padding: 10px 15px;
+            border: 2px solid var(--pink-medium);
+            border-radius: 10px;
+            font-size: 1.1em;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: var(--text-color);
+            margin-bottom: 15px;
+            width: 180px; /* Largura fixa para o campo */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .date-input:focus {
+            border-color: var(--pink-dark);
+            box-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
+        }
+
+        .confirm-button {
+            background-color: var(--button-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .confirm-button:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #error-message {
+            color: var(--error-color);
+            font-size: 1em;
+            margin-top: 10px;
+            font-weight: bold;
+            display: none; /* Inicia oculto */
+        }
+
 
         /* Responsividade */
         @media (max-width: 768px) {
@@ -263,7 +297,11 @@
                 font-size: 2.5em;
             }
 
-            p {
+            p { /* Estilo geral para p */
+                font-size: 1em;
+                padding: 0 10px;
+            }
+            p#second-screen-paragraph { /* Estilo específico para o parágrafo longo na segunda tela */
                 font-size: 1em;
                 padding: 0 10px;
             }
@@ -272,13 +310,19 @@
                 padding: 12px 25px;
                 font-size: 1.1em;
             }
-
             .content-wrapper {
                 padding: 20px;
             }
-
-            #final-message {
-                font-size: 1.8em;
+            .date-section h3 {
+                font-size: 1.5em;
+            }
+            .date-input {
+                font-size: 1em;
+                width: 160px;
+            }
+            .confirm-button {
+                padding: 10px 20px;
+                font-size: 1em;
             }
         }
 
@@ -287,7 +331,10 @@
                 font-size: 2em;
             }
 
-            p {
+            p { /* Estilo geral para p */
+                font-size: 0.9em;
+            }
+            p#second-screen-paragraph { /* Estilo específico para o parágrafo longo na segunda tela */
                 font-size: 0.9em;
             }
 
@@ -295,180 +342,218 @@
                 padding: 10px 20px;
                 font-size: 1em;
             }
-
             .content-wrapper {
                 padding: 15px;
             }
-
-            #final-message {
-                font-size: 1.5em;
+            .date-section h3 {
+                font-size: 1.3em;
+            }
+            .date-input {
+                font-size: 0.9em;
+                width: 140px;
+            }
+            .confirm-button {
+                padding: 8px 15px;
+                font-size: 0.9em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="heart-container"></div>
-    <div id="background-slideshow"></div> <div class="content-wrapper">
+    <div id="background-slideshow"></div>
+
+    <div class="content-wrapper">
         <h1 id="main-title">Feliz dia dos namorados meu amor!❤️</h1>
         <p id="main-paragraph">
             Hoje é o nosso dia, mas a verdade é que todo dia ao seu lado é especial. Você me inspira, me acalma e me completa de um jeito que só o amor verdadeiro consegue fazer. Obrigado por ser minha parceira, minha melhor amiga, meu porto seguro. Que a gente continue rindo juntos, sonhando juntos, crescendo lado a lado. Te amo infinitamente, minha vida! 💖
         </p>
         <button class="action-button" id="action-button">Clique aqui</button>
 
-        <div id="final-message-container">
-            <p id="final-message">Com todo amor, Gabriel 💌</p>
-            <iframe id="spotify-player" style="border-radius:12px" src="https://open.spotify.com/embed/track/2C3X3P1WkX0CjG3s3B4e3E?utm_source=generator&auto_play=true" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <div id="after-first-click-content">
+            <p id="second-screen-paragraph">
+                Hoje é o nosso dia, mas a verdade é que todo dia ao seu lado é especial. Você me inspira, me acalma e me completa de um jeito que só o amor verdadeiro consegue fazer. Obrigado por ser minha parceira, minha melhor amiga, meu porto seguro. Que a gente continue rindo juntos, sonhando juntos, crescendo lado a lado. Te amo infinitamente, minha vida! 💖
+            </p>
+            
+            <video id="our-video-player" controls loop muted playsinline>
+                <source src="WhatsApp Video 2025-06-11 at 16.24.12.mp4" type="video/mp4"> Seu navegador não suporta o elemento de vídeo.
+            </video>
+
+            <div class="date-section">
+                <h3>Insira a data que mudou sua vida por completo</h3>
+                <input type="password" id="date-input" class="date-input" maxlength="8" pattern="[0-9]{8}" placeholder="DDMMAAAA">
+                <button class="confirm-button" id="confirm-date-button">Confirmar</button>
+                <p id="error-message">Data incorreta, tente novamente.</p>
+            </div>
         </div>
     </div>
 
+    <audio id="background-audio-player" loop>
+        <source src="Lady Gaga, Bruno Mars - Die With A Smile (Lyrics).mp3" type="audio/mpeg"> Seu navegador não suporta o elemento de áudio.
+    </audio>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const button = document.getElementById('action-button');
-            const finalMessageContainer = document.getElementById('final-message-container');
+            const button = document.getElementById('action-button'); // O primeiro botão
+            const mainTitle = document.getElementById('main-title'); // Título principal
+            const mainParagraph = document.getElementById('main-paragraph'); // Parágrafo inicial (será escondido)
+            const afterFirstClickContent = document.getElementById('after-first-click-content'); // Container que aparece depois
             const backgroundSlideshow = document.getElementById('background-slideshow');
+            const ourVideoPlayer = document.getElementById('our-video-player'); // Player de vídeo
+            const backgroundAudioPlayer = document.getElementById('background-audio-player'); // Player de áudio
+            
+            // Novos elementos para a seção de data
+            const dateInput = document.getElementById('date-input');
+            const confirmDateButton = document.getElementById('confirm-date-button');
+            const errorMessage = document.getElementById('error-message');
+            const correctDate = '20052019'; // A data correta
 
             // --- LOCAL PARA INSERIR SUAS 6 IMAGENS ---
-            // Você pode usar duas formas para o caminho das fotos:
-
-            // OPÇÃO 1: FOTOS NA MESMA PASTA DO ARQUIVO HTML
-            // Se você salvar suas fotos (ex: "foto1.jpg", "foto2.png")
-            // na mesma pasta onde está este arquivo HTML (diadosnamorados.html),
-            // use apenas o nome do arquivo aqui:
             const photos = [
-                'WhatsApp Image 2025-06-11 at 14.57.17 (1).jpeg',    // <--- COLOQUE O NOME DO ARQUIVO DA SUA PRIMEIRA FOTO AQUI
-                'WhatsApp Image 2025-06-11 at 14.57.17 (2).jpeg',    // <--- COLOQUE O NOME DO ARQUIVO DA SUA SEGUNDA FOTO AQUI
-                'WhatsApp Image 2025-06-11 at 14.57.17.jpeg',   // <--- COLOQUE O NOME DO ARQUIVO DA SUA TERCEIRA FOTO AQUI
-                'WhatsApp Image 2025-06-11 at 14.57.18 (1).jpeg',   // <--- COLOQUE O NOME DO ARQUIVO DA SUA QUARTA FOTO AQUI
-                'WhatsApp Image 2025-06-11 at 14.57.18 (2).jpeg',    // <--- COLOQUE O NOME DO ARQUIVO DA SUA QUINTA FOTO AQUI
-                'WhatsApp Image 2025-06-11 at 14.57.18.jpeg'     // <--- COLOQUE O NOME DO ARQUIVO DA SUA SEXTA FOTO AQUI
+                'WhatsApp Image 2025-06-11 at 14.57.17 (1).jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.17 (2).jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.17.jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.18 (1).jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.18 (2).jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.18.jpeg'
             ];
-
-            // OPÇÃO 2: FOTOS HOSPEDADAS ONLINE (ex: Imgur, Google Fotos com link público)
-            // Se suas fotos estiverem hospedadas em um serviço online,
-            // você precisa usar a URL COMPLETA de cada foto:
-            /*
-            const photos = [
-                'https://i.imgur.com/exemplo_da_minha_foto_1.jpg',
-                'https://seusite.com.br/caminho/para/sua_foto_2.png',
-                'https://docs.google.com/uc?id=EXEMPLO_ID_DA_SUA_FOTO_NO_GOOGLE_DRIVE_PUBLICO_3',
-                'https://exemplo.com/sua_foto_4.jpeg',
-                'https://outrosite.org/imagens/foto_5.webp',
-                'https://storage.cloud.google.com/sua_foto_6.jpg'
-            ];
-            */
-            // Escolha **APENAS UMA** das opções acima (OPÇÃO 1 ou OPÇÃO 2) e comente a outra.
-            // Para comentar uma linha ou um bloco, use `//` no início da linha ou `/* ... */` para um bloco.
-
 
             let currentPhotoIndex = 0;
             let slideshowInterval;
-            let activeImage = null; // Rastreia a imagem atualmente ativa
-            let nextImageElement = null; // Rastreia a próxima imagem que está carregando/aparecendo
-
-            // Função para criar um coração
-            function createHeart() {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                document.querySelector('.heart-container').appendChild(heart);
-
-                const size = Math.random() * 20 + 10;
-                heart.style.width = `${size}px`;
-                heart.style.height = `${size}px`;
-                heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.animationDuration = `${Math.random() * 5 + 7}s`;
-                heart.style.animationDelay = `${Math.random() * 5}s`;
-
-                const colors = ['var(--heart-color-1)', 'var(--heart-color-2)', 'var(--heart-color-3)'];
-                heart.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-                heart.addEventListener('animationend', () => {
-                    heart.remove();
-                });
-            }
-
-            // Gera corações periodicamente
-            setInterval(createHeart, 300);
+            let activeImage = null;
 
             // Função para iniciar o slideshow de fotos de fundo
             function startSlideshow() {
-                // Garante que o contêiner do slideshow esteja visível
                 backgroundSlideshow.style.opacity = '1';
 
                 function showNextPhoto() {
-                    // Calcula o índice da próxima foto
                     const nextPhotoIndex = (currentPhotoIndex + 1) % photos.length;
-
-                    // Cria e carrega a PRÓXIMA imagem em segundo plano para garantir que esteja pronta
-                    const newImage = new Image(); // Usa new Image() para pré-carregar
+                    
+                    const newImage = new Image();
                     newImage.src = photos[nextPhotoIndex];
 
-                    newImage.onload = () => { // Somente depois que a imagem carregar
-                        if (nextImageElement) { // Se já existe uma imagem "próxima" da iteração anterior
-                            nextImageElement.classList.remove('active'); // Remove a classe 'active' para iniciar o fade-out
-                            nextImageElement.addEventListener('transitionend', () => {
-                                if (nextImageElement && nextImageElement.parentNode) {
-                                    nextImageElement.parentNode.removeChild(nextImageElement);
+                    newImage.onload = () => {
+                        if (activeImage) {
+                            activeImage.classList.remove('active');
+                            activeImage.addEventListener('transitionend', function handler() {
+                                if (this.parentNode) {
+                                    this.parentNode.removeChild(this);
                                 }
+                                this.removeEventListener('transitionend', handler);
                             }, { once: true });
                         }
 
-                        // Adiciona a nova imagem ao DOM
                         newImage.classList.add('slideshow-image');
                         backgroundSlideshow.appendChild(newImage);
+                        
+                        void newImage.offsetWidth; 
+                        newImage.classList.add('active');
 
-                        // Força um reflow para garantir que a transição CSS seja aplicada
-                        void newImage.offsetWidth;
-                        newImage.classList.add('active'); // Torna a nova imagem ativa
-
-                        // Atualiza as referências para o próximo ciclo
                         activeImage = newImage;
                         currentPhotoIndex = nextPhotoIndex;
                     };
 
-                    // Se a imagem falhar ao carregar, pular para a próxima (opcional)
                     newImage.onerror = () => {
                         console.error('Falha ao carregar imagem: ' + photos[nextPhotoIndex]);
-                        // Tentar carregar a próxima imagem imediatamente se houver um erro
-                        currentPhotoIndex = nextPhotoIndex; // Avança o índice
-                        showNextPhoto(); // Chama a função novamente para tentar a próxima
+                        currentPhotoIndex = nextPhotoIndex;
+                        showNextPhoto();
                     };
                 }
 
-                // Inicia o slideshow exibindo a primeira foto
                 const initialImage = new Image();
                 initialImage.src = photos[currentPhotoIndex];
                 initialImage.classList.add('slideshow-image', 'active');
                 backgroundSlideshow.appendChild(initialImage);
-                activeImage = initialImage; // Define a primeira imagem como a ativa
+                activeImage = initialImage;
 
-                // Inicia o intervalo para trocar as fotos após a primeira ser exibida
-                slideshowInterval = setInterval(showNextPhoto, 5000); // Troca de foto a cada 5 segundos
+                slideshowInterval = setInterval(showNextPhoto, 5000);
             }
 
+            // --- Gerenciamento da Música entre as páginas ---
+            // NUNCA INICIA A MÚSICA AQUI. ELA SÓ SERÁ INICIADA NO EVENTO DE CLIQUE DO BOTÃO
+            // OU RESUMIDA SE VIER DE OUTRA PÁGINA.
+            // A lógica de localStorage para retomar a música é mantida.
+            const savedPlaybackTime = localStorage.getItem('audioPlaybackTime');
+            const audioWasPlaying = localStorage.getItem('audioIsPlaying') === 'true';
+
+            if (savedPlaybackTime && audioWasPlaying) {
+                backgroundAudioPlayer.currentTime = parseFloat(savedPlaybackTime);
+                backgroundAudioPlayer.play().catch(error => {
+                    console.error('Falha ao retomar áudio na página inicial:', error);
+                });
+            }
+
+
+            // Evento para o botão "Clique aqui" (inicial)
             button.addEventListener('click', () => {
-                // Esconde e remove o botão suavemente
+                // Esconde o parágrafo inicial e o botão
                 button.style.opacity = '0';
                 button.style.transform = 'translateY(20px)';
                 button.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                mainParagraph.style.opacity = '0';
+                mainParagraph.style.transform = 'translateY(-20px)';
+                mainParagraph.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                // O TÍTULO PRINCIPAL (mainTitle) NÃO É ESCONDIDO, CONFORME SOLICITADO
+                
                 setTimeout(() => {
-                    button.style.display = 'none';
-                }, 500); // Espera o fade out do botão
+                    mainParagraph.style.display = 'none'; // Esconde o parágrafo
+                    button.style.display = 'none'; // Esconde o botão
 
-                // Mostra e anima a mensagem final e o player do Spotify
-                finalMessageContainer.style.display = 'block';
-                // Força o navegador a recalcular o layout para garantir a animação
-                void finalMessageContainer.offsetWidth;
-                finalMessageContainer.style.opacity = '1';
-                finalMessageContainer.style.transform = 'translateY(0)';
+                    // Mostra o conteúdo da "segunda tela" (parágrafo longo, vídeo, e seção de data)
+                    afterFirstClickContent.style.display = 'block';
+                    void afterFirstClickContent.offsetWidth; // Força reflow para animação
+                    afterFirstClickContent.style.opacity = '1';
+                    afterFirstClickContent.style.transform = 'translateY(0)';
 
-                // Inicia o slideshow de fotos de fundo
-                startSlideshow();
+                    // Inicia o slideshow de fotos de fundo
+                    startSlideshow();
 
-                // AVISO SOBRE AUTOPLAY DO SPOTIFY:
-                // Navegadores modernos frequentemente bloqueiam o autoplay de mídias
-                // sem uma interação direta do usuário com o elemento de mídia.
-                // Embora o iframe tenha 'allow="autoplay"', não é uma garantia.
-                // Se não tocar automaticamente, a pessoa precisará dar play.
+                    // Tentar reproduzir o ÁUDIO automaticamente
+                    backgroundAudioPlayer.play().catch(error => {
+                        console.error('Falha ao iniciar áudio automaticamente:', error);
+                    });
+
+                    // Tentar reproduzir o VÍDEO automaticamente
+                    ourVideoPlayer.play().catch(error => {
+                        console.error('Falha ao iniciar vídeo automaticamente:', error);
+                    });
+
+                }, 500); // Espera 500ms para o fade out do conteúdo inicial
+            });
+
+            // Lógica para o campo de data e botão "Confirmar"
+            confirmDateButton.addEventListener('click', () => {
+                const enteredDate = dateInput.value;
+                errorMessage.style.display = 'none'; // Esconde a mensagem de erro anterior
+
+                // Verifica se a entrada tem exatamente 8 caracteres e se são todos números
+                if (enteredDate.length === 8 && /^\d{8}$/.test(enteredDate)) {
+                    if (enteredDate === correctDate) {
+                        // REMOVIDO: ourVideoPlayer.pause(); // O VÍDEO NÃO DEVE PAUSAR AQUI
+                        // A música já está tocando, não precisa chamar play novamente, nem pausar
+                        // o áudio. Apenas salva o estado para a próxima página.
+                        localStorage.setItem('audioPlaybackTime', backgroundAudioPlayer.currentTime);
+                        localStorage.setItem('audioIsPlaying', 'true'); // Força como true, pois ela estava tocando
+
+                        // Redireciona para a página final
+                        window.location.href = 'eu_te_amo.html';
+                    } else {
+                        errorMessage.textContent = "Data incorreta, tente novamente.";
+                        errorMessage.style.display = 'block'; // Mostra a mensagem de erro
+                        dateInput.value = ''; // Limpa o campo
+                    }
+                } else {
+                    errorMessage.textContent = "A data deve conter 8 números (DDMMAAAA).";
+                    errorMessage.style.display = 'block';
+                    dateInput.value = '';
+                }
+            });
+
+            // Opcional: Adicionar listener para 'input' no campo de data para limpar erro
+            dateInput.addEventListener('input', () => {
+                if (errorMessage.style.display === 'block') {
+                    errorMessage.style.display = 'none'; // Limpa a mensagem de erro ao começar a digitar
+                }
             });
         });
     </script>

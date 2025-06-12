@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eu Te Amo! ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap');
+
+        :root {
+            --pink-light: #FFD1DC;
+            --pink-medium: #FFB6C1;
+            --pink-dark: #FF69B4;
+            --button-color: #e91e63;
+            --button-hover-color: #c2185b;
+            --text-color: #333;
+            --text-shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--pink-light), var(--pink-medium), var(--pink-dark));
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: var(--text-color);
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+            text-align: center;
+            overflow-x: hidden; /* Evita barra de rolagem horizontal */
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Slideshow de Fotos de Fundo - Desativado nesta página */
+        #background-slideshow {
+            display: none; /* Escondido nesta página para não sobrepor o conteúdo e a imagem especial */
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.85); /* Aumentei a opacidade para melhor legibilidade */
+            padding: 30px 40px 50px 40px; /* Mais padding inferior para o botão */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 90%; /* Define a largura para 90% da tela disponível */
+            max-width: 500px; /* Limita a largura máxima do container */
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInSlideDown 1s ease-out forwards;
+            animation-delay: 0.5s;
+            display: flex; /* Para usar flexbox para centralizar itens */
+            flex-direction: column; /* Organiza os itens em coluna */
+            align-items: center; /* Centraliza horizontalmente os itens */
+            justify-content: center; /* Centraliza verticalmente se o conteúdo for menor que o container */
+            min-height: 400px; /* Garante um tamanho mínimo para o container */
+        }
+
+        @keyframes fadeInSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3.5em;
+            color: var(--button-color);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px var(--text-shadow-color);
+        }
+
+        #special-image {
+            max-width: 100%; /* Limita a largura da imagem para não estourar o container */
+            height: auto; /* Mantém a proporção */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeInScale 1s ease-out forwards;
+            animation-delay: 1s;
+            display: block; /* Garante que a imagem se comporte como um bloco */
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .back-button {
+            background-color: var(--button-color);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 30px; /* Espaço acima do botão */
+            opacity: 0; /* Começa oculto */
+            transform: translateY(20px); /* Para animação de entrada */
+            animation: fadeInSlideUp 1s ease-out forwards;
+            animation-delay: 1.5s; /* Aparece depois da imagem */
+        }
+        .back-button:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Player de áudio invisível para continuar a música */
+        #background-audio-player {
+            display: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2.5em;
+            }
+            .container {
+                padding: 20px 20px 40px 20px;
+            }
+            #special-image {
+                max-width: 95%; /* Adapta a imagem para telas menores */
+            }
+            .back-button {
+                padding: 12px 25px;
+                font-size: 1.1em;
+            }
+        }
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 15px 15px 30px 15px;
+                min-height: 300px; /* Reduz a altura mínima para telas muito pequenas */
+            }
+            .back-button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="background-slideshow"></div> 
+
+    <div class="container">
+        <h2>Eu te amo! ❤️</h2>
+        <img id="special-image" src="WhatsApp Image 2025-06-11 at 16.43.04.jpeg" alt="Uma imagem especial"> <button class="back-button" id="back-button">Voltar</button>
+
+        <audio id="background-audio-player" loop>
+            <source src="Lady Gaga, Bruno Mars - Die With A Smile (Lyrics).mp3" type="audio/mpeg"> Seu navegador não suporta o elemento de áudio.
+        </audio>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const backButton = document.getElementById('back-button');
+            const backgroundAudioPlayer = document.getElementById('background-audio-player');
+
+            // --- LOCAL PARA INSERIR SUAS 6 IMAGENS (MESMAS DA INDEX.HTML) ---
+            // Este array é apenas para consistência, o slideshow NÃO será ativado nesta página.
+            const photos = [
+                'WhatsApp Image 2025-06-11 at 14.57.17 (1).jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.17 (2).jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.17.jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.18 (1).jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.18 (2).jpeg',
+                'WhatsApp Image 2025-06-11 at 14.57.18.jpeg'
+            ];
+            // As variáveis currentPhotoIndex, slideshowInterval, activeImage, e a função startSlideshow
+            // não precisam ser executadas nesta página, pois o slideshow está desativado.
+
+            
+            // --- Gerenciamento da Música entre as páginas ---
+            const savedPlaybackTime = localStorage.getItem('audioPlaybackTime');
+            const audioWasPlaying = localStorage.getItem('audioIsPlaying') === 'true';
+
+            if (savedPlaybackTime && audioWasPlaying) {
+                backgroundAudioPlayer.currentTime = parseFloat(savedPlaybackTime);
+                backgroundAudioPlayer.play().catch(error => {
+                    console.error('Falha ao retomar áudio na página "Eu te amo!":', error);
+                });
+            }
+
+            backButton.addEventListener('click', () => {
+                // Salva a posição atual da música antes de voltar
+                localStorage.setItem('audioPlaybackTime', backgroundAudioPlayer.currentTime);
+                localStorage.setItem('audioIsPlaying', backgroundAudioPlayer.paused ? 'false' : 'true');
+
+                // Redireciona de volta para a página inicial
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
